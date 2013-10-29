@@ -3,22 +3,23 @@
 Public Class frmLutron
     Implements CommandFusion.CFPlugin
 
+
     Public Event AddCommand(ByVal sender As CommandFusion.CFPlugin, ByVal newCommand As CommandFusion.SystemCommand) Implements CommandFusion.CFPlugin.AddCommand
     Public Event AddFeedback(ByVal sender As CommandFusion.CFPlugin, ByVal newFB As CommandFusion.SystemFeedback) Implements CommandFusion.CFPlugin.AddFeedback
-    Public Event AddMacro(ByVal sender As CommandFusion.CFPlugin, ByVal newMacro As CommandFusion.SystemMacro) Implements CommandFusion.CFPlugin.AddMacro
-    Public Event AddMacros(ByVal sender As CommandFusion.CFPlugin, ByVal newMacros As System.Collections.Generic.List(Of CommandFusion.SystemMacro)) Implements CommandFusion.CFPlugin.AddMacros
-    Public Event AddSystem(ByVal sender As CommandFusion.CFPlugin, ByVal newSystem As CommandFusion.SystemClass) Implements CommandFusion.CFPlugin.AddSystem
-    Public Event AppendSystem(ByVal sender As CommandFusion.CFPlugin, ByVal newSystem As CommandFusion.SystemClass) Implements CommandFusion.CFPlugin.AppendSystem
+    Public Event AddMacro(ByVal sender As CommandFusion.CFPlugin, ByVal newMacro As CommandFusion.Macro) Implements CommandFusion.CFPlugin.AddMacro
+    Public Event AddMacros(ByVal sender As CommandFusion.CFPlugin, ByVal newMacros As System.Collections.Generic.List(Of CommandFusion.Macro)) Implements CommandFusion.CFPlugin.AddMacros
+    Public Event AddSystem(ByVal sender As CommandFusion.CFPlugin, ByVal newSystem As CommandFusion.JSONSystem) Implements CommandFusion.CFPlugin.AddSystem
+    Public Event AppendSystem(ByVal sender As CommandFusion.CFPlugin, ByVal newSystem As CommandFusion.JSONSystem) Implements CommandFusion.CFPlugin.AppendSystem
     Public Event RequestSystemList(ByVal sender As CommandFusion.CFPlugin) Implements CommandFusion.CFPlugin.RequestSystemList
     Public Event ToggleWindow(ByVal sender As CommandFusion.CFPlugin) Implements CommandFusion.CFPlugin.ToggleWindow
     Public Event WriteToLog(ByVal sender As CommandFusion.CFPlugin, ByVal msg As String) Implements CommandFusion.CFPlugin.WriteToLog
     Public Event RequestMacroList(ByVal sender As CommandFusion.CFPlugin) Implements CommandFusion.CFPlugin.RequestMacroList
     Public Event RequestProjectFileInfo(ByVal sender As CommandFusion.CFPlugin) Implements CommandFusion.CFPlugin.RequestProjectFileInfo
     Public Event AddScript(ByVal sender As CommandFusion.CFPlugin, ByVal ScriptRelativePathToProject As String) Implements CommandFusion.CFPlugin.AddScript
-    Public Event EditMacro(ByVal sender As CommandFusion.CFPlugin, ByVal existingMacro As String, ByVal newMacro As CommandFusion.SystemMacro) Implements CommandFusion.CFPlugin.EditMacro
+    Public Event EditMacro(ByVal sender As CommandFusion.CFPlugin, ByVal existingMacro As String, ByVal newMacro As CommandFusion.Macro) Implements CommandFusion.CFPlugin.EditMacro
 
     Private theCSV As String
-    Private localSystems As List(Of CommandFusion.SystemClass)
+    Private localSystems As List(Of CommandFusion.JSONSystem)
     Private commandList As New List(Of CommandFusion.SystemCommand)
     Private feedbackList As New List(Of CommandFusion.SystemFeedback)
 
@@ -217,11 +218,11 @@ Public Class frmLutron
         End If
     End Sub
 
-    Public Sub UpdateSystemList(ByVal systemList As System.Collections.Generic.List(Of CommandFusion.SystemClass)) Implements CommandFusion.CFPlugin.UpdateSystemList
+    Public Sub UpdateSystemList(systemList As List(Of CommandFusion.JSONSystem), systemTypes As List(Of CommandFusion.JSONSystem)) Implements CommandFusion.CFPlugin.UpdateSystemList
         ' System list has been received
         cboSystem.Items.Clear()
 
-        For Each aSystem As CommandFusion.SystemClass In systemList
+        For Each aSystem As CommandFusion.JSONSystem In systemList
             cboSystem.Items.Add(aSystem.Name)
         Next
         If cboSystem.Items.Count Then
@@ -234,8 +235,8 @@ Public Class frmLutron
         localSystems = systemList
     End Sub
 
-    Private Function GetSystem(ByVal sysName As String) As CommandFusion.SystemClass
-        For Each aSys As CommandFusion.SystemClass In localSystems
+    Private Function GetSystem(ByVal sysName As String) As CommandFusion.JSONSystem
+        For Each aSys As CommandFusion.JSONSystem In localSystems
             If aSys.Name = sysName Then
                 Return aSys
             End If
@@ -246,14 +247,14 @@ Public Class frmLutron
     Private Sub btnApply_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApply.Click
         If cboSystem.SelectedIndex >= 0 Then
             ' Get the selected system by its name
-            Dim theSystem As CommandFusion.SystemClass = GetSystem(cboSystem.SelectedItem).Clone
+            Dim theSystem As CommandFusion.JSONSystem = GetSystem(cboSystem.SelectedItem).Clone
 
             For Each aCmd As CommandFusion.SystemCommand In commandList
-                aCmd.System = theSystem
+                aCmd.System = theSystem.Name
                 theSystem.Commands.Add(aCmd)
             Next
             For Each aFB As CommandFusion.SystemFeedback In feedbackList
-                aFB.System = theSystem
+                aFB.System = theSystem.Name
                 theSystem.Feedback.Add(aFB)
             Next
 
@@ -278,7 +279,7 @@ Public Class frmLutron
         ' Usually used to close any network connections, etc.
     End Sub
 
-    Public ReadOnly Property Form() As System.Windows.Forms.Form Implements CommandFusion.CFPlugin.Form
+    Public ReadOnly Property Form() As WeifenLuo.WinFormsUI.Docking.DockContent Implements CommandFusion.CFPlugin.Form
         Get
             Return Me
         End Get
@@ -306,10 +307,10 @@ Public Class frmLutron
 
     End Sub
 
-    Public Sub UpdateMacroList(ByVal systemList As System.Collections.Generic.List(Of CommandFusion.SystemMacro)) Implements CommandFusion.CFPlugin.UpdateMacroList
+    Public Sub UpdateMacroList(systemList As List(Of CommandFusion.Macro)) Implements CommandFusion.CFPlugin.UpdateMacroList
 
     End Sub
-#End Region
 
+#End Region
 
 End Class
