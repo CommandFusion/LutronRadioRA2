@@ -3,20 +3,19 @@
 Public Class frmLutron
     Implements CommandFusion.CFPlugin
 
-
-    Public Event AddCommand(ByVal sender As CommandFusion.CFPlugin, ByVal newCommand As CommandFusion.SystemCommand) Implements CommandFusion.CFPlugin.AddCommand
-    Public Event AddFeedback(ByVal sender As CommandFusion.CFPlugin, ByVal newFB As CommandFusion.SystemFeedback) Implements CommandFusion.CFPlugin.AddFeedback
-    Public Event AddMacro(ByVal sender As CommandFusion.CFPlugin, ByVal newMacro As CommandFusion.Macro) Implements CommandFusion.CFPlugin.AddMacro
-    Public Event AddMacros(ByVal sender As CommandFusion.CFPlugin, ByVal newMacros As System.Collections.Generic.List(Of CommandFusion.Macro)) Implements CommandFusion.CFPlugin.AddMacros
-    Public Event AddSystem(ByVal sender As CommandFusion.CFPlugin, ByVal newSystem As CommandFusion.JSONSystem) Implements CommandFusion.CFPlugin.AddSystem
-    Public Event AppendSystem(ByVal sender As CommandFusion.CFPlugin, ByVal newSystem As CommandFusion.JSONSystem) Implements CommandFusion.CFPlugin.AppendSystem
-    Public Event RequestSystemList(ByVal sender As CommandFusion.CFPlugin) Implements CommandFusion.CFPlugin.RequestSystemList
-    Public Event ToggleWindow(ByVal sender As CommandFusion.CFPlugin) Implements CommandFusion.CFPlugin.ToggleWindow
-    Public Event WriteToLog(ByVal sender As CommandFusion.CFPlugin, ByVal msg As String) Implements CommandFusion.CFPlugin.WriteToLog
-    Public Event RequestMacroList(ByVal sender As CommandFusion.CFPlugin) Implements CommandFusion.CFPlugin.RequestMacroList
-    Public Event RequestProjectFileInfo(ByVal sender As CommandFusion.CFPlugin) Implements CommandFusion.CFPlugin.RequestProjectFileInfo
-    Public Event AddScript(ByVal sender As CommandFusion.CFPlugin, ByVal ScriptRelativePathToProject As String) Implements CommandFusion.CFPlugin.AddScript
-    Public Event EditMacro(ByVal sender As CommandFusion.CFPlugin, ByVal existingMacro As String, ByVal newMacro As CommandFusion.Macro) Implements CommandFusion.CFPlugin.EditMacro
+    Public Event AddCommand(sender As CommandFusion.CFPlugin, newCommand As CommandFusion.SystemCommand) Implements CommandFusion.CFPlugin.AddCommand
+    Public Event AddFeedback(sender As CommandFusion.CFPlugin, newFB As CommandFusion.SystemFeedback) Implements CommandFusion.CFPlugin.AddFeedback
+    Public Event AddMacro(sender As CommandFusion.CFPlugin, newMacro As CommandFusion.SystemMacro) Implements CommandFusion.CFPlugin.AddMacro
+    Public Event AddMacros(sender As CommandFusion.CFPlugin, newMacros As List(Of CommandFusion.SystemMacro)) Implements CommandFusion.CFPlugin.AddMacros
+    Public Event AddScript(sender As CommandFusion.CFPlugin, ScriptRelativePathToProject As String) Implements CommandFusion.CFPlugin.AddScript
+    Public Event AddSystem(sender As CommandFusion.CFPlugin, newSystem As CommandFusion.JSONSystem) Implements CommandFusion.CFPlugin.AddSystem
+    Public Event AppendSystem(sender As CommandFusion.CFPlugin, newSystem As CommandFusion.JSONSystem) Implements CommandFusion.CFPlugin.AppendSystem
+    Public Event EditMacro(sender As CommandFusion.CFPlugin, existingMacro As String, newMacro As CommandFusion.SystemMacro) Implements CommandFusion.CFPlugin.EditMacro
+    Public Event RequestMacroList(sender As CommandFusion.CFPlugin) Implements CommandFusion.CFPlugin.RequestMacroList
+    Public Event RequestProjectFileInfo(sender As CommandFusion.CFPlugin) Implements CommandFusion.CFPlugin.RequestProjectFileInfo
+    Public Event RequestSystemList(sender As CommandFusion.CFPlugin) Implements CommandFusion.CFPlugin.RequestSystemList
+    Public Event ToggleWindow(sender As CommandFusion.CFPlugin) Implements CommandFusion.CFPlugin.ToggleWindow
+    Public Event WriteToLog(sender As CommandFusion.CFPlugin, msg As String) Implements CommandFusion.CFPlugin.WriteToLog
 
     Private theCSV As String
     Private localSystems As List(Of CommandFusion.JSONSystem)
@@ -279,7 +278,7 @@ Public Class frmLutron
         ' Usually used to close any network connections, etc.
     End Sub
 
-    Public ReadOnly Property Form() As WeifenLuo.WinFormsUI.Docking.DockContent Implements CommandFusion.CFPlugin.Form
+    Public ReadOnly Property Form As Windows.Forms.Form Implements CommandFusion.CFPlugin.Form
         Get
             Return Me
         End Get
@@ -307,7 +306,7 @@ Public Class frmLutron
 
     End Sub
 
-    Public Sub UpdateMacroList(systemList As List(Of CommandFusion.Macro)) Implements CommandFusion.CFPlugin.UpdateMacroList
+    Public Sub UpdateMacroList(systemList As List(Of CommandFusion.SystemMacro)) Implements CommandFusion.CFPlugin.UpdateMacroList
 
     End Sub
 
