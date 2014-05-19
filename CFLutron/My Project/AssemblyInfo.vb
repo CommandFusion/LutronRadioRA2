@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Lutron RadioRA2 Plugin for guiDesigner")> 
 <Assembly: AssemblyCompany("CommandFusion")> 
 <Assembly: AssemblyProduct("CFLutron Plugin")> 
-<Assembly: AssemblyCopyright("Copyright © CommandFusion 2010")> 
+<Assembly: AssemblyCopyright("Copyright © CommandFusion 2014")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.1")> 
-<Assembly: AssemblyFileVersion("1.0.0.1")> 
+<Assembly: AssemblyVersion("1.1.0.0")> 
+<Assembly: AssemblyFileVersion("1.1.0.0")> 
